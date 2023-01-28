@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+<!-- TITLE -->
+{% block title %}
+    List View
+{% endblock %}
+
+<!-- BODY -->
+{% block content %}
+    <h1>{{ls.name}}</h1>
+
+    <form method="post" action="#">
+        {% csrf_token %}
+
+        <!-- FOR Loop -->
+        {% for item in ls.item_set.all %}   <!-- .all() method requires (). In this case, it will work w/o it. It causes an error if there is () -->
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend input-group-text">
+                <div > <!--class="input-group-text" style="height: 38px;"-->
+
+                    {% if item.complete == True %}
+                        <input type="checkbox" value="clicked" name="ItemNo.{{item.id}}" checked> <!--{{item.text}}-->
+                    {% else %}
+                        <input type="checkbox" value="clicked" name="ItemNo.{{item.id}}"> <!--{{item.text}}-->
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <input class="form-control" type="text" value="{{item.text}}">
+        </div>
+    
+        {% endfor %}
+        
+        <!--{{form.as_p}}-->
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-success" type="submit" name="addNewItemButton" value="newItem">Add Item</button>
+            </div>
+
+            <input type="text" name="newItem">
+        </div>
+
+        <button class="btn btn-success" type="submit" name="saveButton" value="save">Save</button>
+
+    </form>
+{% endblock %}
